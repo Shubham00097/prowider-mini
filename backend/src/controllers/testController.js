@@ -8,7 +8,7 @@ const generateLeads = async (req, res) => {
     for (let i = 1; i <= 10; i++) {
       const paddedI = i.toString().padStart(2, "0");
       requests.push(
-        axios.post("http://localhost:5000/api/leads", {
+        axios.post(`${process.env.BASE_URL}/api/leads`, {
           name: `Test User ${i}`,
           phone: `${basePhone}${paddedI}`,
           city: "Delhi",
