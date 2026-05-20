@@ -50,6 +50,47 @@ const generateLeads = async (req, res) => {
   }
 };
 
+const Service = require("../models/Service");
+const Provider = require("../models/Provider");
+const AllocationState = require("../models/AllocationState");
+
+const seedDatabase = async (req, res) => {
+  try {
+    await Service.deleteMany();
+    await Provider.deleteMany();
+    await AllocationState.deleteMany();
+
+    await Service.insertMany([
+      { name: "Service 1" },
+      { name: "Service 2" },
+      { name: "Service 3" },
+    ]);
+
+    const providers = [];
+    for (let i = 1; i <= 8; i++) {
+      providers.push({ name: `Provider ${i}` });
+    }
+    await Provider.insertMany(providers);
+
+    await AllocationState.insertMany([
+      { serviceName: "Service 1", currentIndex: 0 },
+      { serviceName: "Service 2", currentIndex: 0 },
+      { serviceName: "Service 3", currentIndex: 0 },
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      message: "Database seeded successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   generateLeads,
+  seedDatabase,
 };

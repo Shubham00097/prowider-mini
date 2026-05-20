@@ -20,9 +20,14 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 
+const autoSeed = require("./utils/autoSeed");
+
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
+  .then(async () => {
+    console.log("MongoDB Connected");
+    await autoSeed();
+  })
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
