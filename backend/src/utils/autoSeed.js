@@ -7,6 +7,8 @@ const autoSeed = async () => {
         const serviceCount = await Service.countDocuments();
         const providerCount = await Provider.countDocuments();
 
+        console.log(`Current Database Status: ${serviceCount} services, ${providerCount} providers`);
+
         if (serviceCount === 0 || providerCount === 0) {
             console.log("Empty database detected. Starting auto-seed...");
 
@@ -14,6 +16,7 @@ const autoSeed = async () => {
             await Provider.deleteMany();
             await AllocationState.deleteMany();
 
+            console.log("Inserting services...");
             await Service.insertMany([
                 { name: "Service 1" },
                 { name: "Service 2" },
@@ -37,7 +40,8 @@ const autoSeed = async () => {
             console.log("Database already contains data. Skipping auto-seed.");
         }
     } catch (error) {
-        console.error("Auto-seed failed:", error.message);
+        console.error("!!! AUTO-SEED ERROR !!!");
+        console.error(error);
     }
 };
 
