@@ -62,6 +62,10 @@ const distributeLead = async (lead, serviceName, session) => {
             serviceName,
         }).session(session);
 
+        if (!state)
+            throw new Error(
+                `Run seed first: AllocationState missing for ${serviceName}`
+            );
         let currentIndex = state.currentIndex;
         let checked = 0;
 
